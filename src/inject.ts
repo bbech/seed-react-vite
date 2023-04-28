@@ -1,12 +1,11 @@
-import { Container } from 'inversify';
-import { CounterService } from "./services/counter.service";
-import { PetClient } from "./services/pets-client.service";
-import { PetClientPrivate } from './services/pets-client-private.service';
+import { Container} from 'inversify';
+import { containerService } from './services/injected-service';
 
-export const injectContainer = () => {
-    const container = new Container();
-    container.bind(CounterService).toSelf();
-    container.bind(PetClient).toSelf();
-    container.bind(PetClientPrivate).toSelf();
-    return container;
+
+export const injectContainer = () : Container => {
+    containerInstance = new Container({ defaultScope: "Singleton"});
+    containerInstance.load(containerService);
+    return containerInstance;
 }
+
+export let containerInstance: undefined | Container;
