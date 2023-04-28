@@ -21,9 +21,9 @@ function App() {
 
 
   useEffect(() => {
-    console.log(getQuery.data);
-    console.log(getQuery.isLoading);
-    console.log(getQuery.isSuccess);
+    // console.log(getQuery.data);
+    // console.log(getQuery.isLoading);
+    // console.log(getQuery.isSuccess);
   },[getQuery.data]);
 
   return (

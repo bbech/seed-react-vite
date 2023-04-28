@@ -1,11 +1,11 @@
 import { injectable } from "inversify";
 import "reflect-metadata";
 import { Pet, PetApi } from "@privateApi/api";
-import { configurationpPrivate } from "../api-config";
+import { axiosPrivate, configurationpPrivate } from "../api-config";
 
 @injectable()
 export class PetClientPrivate {
-    petApi = new PetApi(configurationpPrivate);
+    petApi = new PetApi(configurationpPrivate, undefined, axiosPrivate);
 
     public getPet() : Promise<Pet> {
         return this.petApi.getPetById(1).then(data => data.data);
