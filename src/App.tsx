@@ -5,21 +5,26 @@ import './App.css'
 import { CounterService } from './services/counter.service';
 import { useInjection } from 'inversify-react';
 import { PetClient } from './services/pets-client.service';
-import { useQuery } from 'react-query';
-import { Pet } from '@petapi/api';
+import { useMutation, useQuery } from 'react-query';
+import { Pet } from '@publicApi/api';
+import { PetClientPrivate } from './services/pets-client-private.service';
 
 function App() {
   const counterService = useInjection(CounterService);
   const petClient = useInjection(PetClient);
+  const petClientPrivate = useInjection(PetClientPrivate);
+
   const [count, setCount] = useState(counterService.getCounter())
-  const { data, isLoading, isSuccess } = useQuery<Pet>('petById', petClient.getCounter.bind(petClient));
+  const getQuery = useQuery<Pet>('getPet', petClient.getPet.bind(petClient));
+  const getQueryPrivate = useQuery<Pet>('getPetPrivate', petClientPrivate.getPet.bind(petClientPrivate));
+  const postQuery = useMutation(petClient.updatePet.bind(petClient));
 
 
   useEffect(() => {
-    console.log(data);
-    console.log(isLoading);
-    console.log(isSuccess);
-  },[data]);
+    console.log(getQuery.data);
+    console.log(getQuery.isLoading);
+    console.log(getQuery.isSuccess);
+  },[getQuery.data]);
 
   return (
     <>
@@ -31,9 +36,16 @@ function App() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-      <h1>Vite + React {isLoading ? 'loading' : data?.name}</h1>
+      <h1>Vite + React {getQuery.isLoading ? 'loading' : getQuery.data?.name}</h1>
       <div className="card">
-        <button onClick={() => setCount(counterService.hit())}>
+        <button onClick={() => { 
+              setCount(counterService.hit());
+              postQuery.mutate({
+                id: 1, name: 'new name',
+                photoUrls: []
+              });
+            }
+          }>
           count is {count}
         </button>
         <p>

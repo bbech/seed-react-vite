@@ -7,7 +7,8 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: [
-      { find: '@petapi', replacement: join(process.cwd(), 'generated-sources/petapi') },
+      { find: '@publicApi', replacement: join(process.cwd(), 'generated-sources/publicApi') },
+      { find: '@privateApi', replacement: join(process.cwd(), 'generated-sources/privateApi') },
     ],
   },
 })

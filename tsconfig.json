@@ -20,7 +20,8 @@
     "noFallthroughCasesInSwitch": true, 
     "experimentalDecorators": true,
     "paths": {
-      "@petapi/*": ["./generated-sources/petapi/*"]
+      "@publicApi/*": ["./generated-sources/publicApi/*"],
+      "@privateApi/*": ["./generated-sources/privateApi/*"]
     }
   },
   "include": ["src"],
