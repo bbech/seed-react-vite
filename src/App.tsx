@@ -8,6 +8,9 @@ import { PetClient } from './services/pets-client.service';
 import { useMutation, useQuery } from 'react-query';
 import { Pet } from '@publicApi/api';
 import { PetClientPrivate } from './services/pets-client-private.service';
+import { increment } from './store/slice/counter-slice';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from './store/configureStore';
 
 function App() {
   const counterService = useInjection(CounterService);
@@ -18,6 +21,10 @@ function App() {
   const getQuery = useQuery<Pet>('getPet', petClient.getPet.bind(petClient));
   const getQueryPrivate = useQuery<Pet>('getPetPrivate', petClientPrivate.getPet.bind(petClientPrivate));
   const postQuery = useMutation(petClient.updatePet.bind(petClient));
+
+
+  const countState = useSelector((state: RootState) => state.counter.value)
+  const dispatch = useDispatch()
 
 
   useEffect(() => {
@@ -44,9 +51,10 @@ function App() {
                 id: 1, name: 'new name',
                 photoUrls: []
               });
+              dispatch(increment());
             }
           }>
-          count is {count}
+          count is {count} / state {countState}
         </button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
